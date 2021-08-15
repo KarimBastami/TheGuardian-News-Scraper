@@ -20,11 +20,11 @@ articlesListItems = articlesList.findAll("li", class_ = "media-list__item")
 for list in articlesListItems:
     mediaContent = list.find("div", class_ = "media__content")
     mediaLink = mediaContent.find("a" ,class_ = "media__link")
-    articleLinkSuffix = mediaLink["href"]
+    articleLinkSuffix = mediaLink["href"].strip()
 
 
     articleLink = ""
-    articleTitle = mediaLink.text
+    articleTitle = mediaLink.text.strip()
 
 
     if (sitePrefix not in articleLinkSuffix):
@@ -37,6 +37,7 @@ for list in articlesListItems:
 
     print(articleTitle)
     print(articleLink)
+    print("----------------------------------------------")
     
 
 
