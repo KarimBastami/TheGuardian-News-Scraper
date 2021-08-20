@@ -80,7 +80,6 @@ def getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile):
 
 
     articleLinkList = removeDuplicates(articleLinkList)
-    print("No of URLs: ",len(articleLinkList))
     return articleLinkList
 
 
@@ -102,57 +101,41 @@ def getArticlesTitles(_soupHtmlFile):
 
 
     articleTitleList = removeDuplicates(articleTitleList)
-    print("No of Titles: ", len(articleTitleList))
     return articleTitleList
 
 
 
+def getArticlesAuthors(_siteUrl, _sitePrefix, _soupHtmlFile):
 
-
-
-# def getArticlesAuthors(_siteUrl, _sitePrefix, _soupHtmlFile):
-
-#     articlesAuthorList = []
-#     articlesUrls = getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile)
-#     authorSearchParameters = ["lx-commentary__meta-reporter",
-#                               "ssrcss-1gg9z89-Contributor",
-#                               "qa-contributor-name"]
-
-#     count = 0
-
-#     for url in articlesUrls:
-#         articlePage = getHtmlFileFromUrl(url)
-#         author = ""
-        
-#         try:
-#             authorList = articlePage.findAll("p", class_ = authorSearchParameters)
-
-#             for auth in authorList:
-#                 author = auth.text
-                
-#                 print(author)
-#                 print(url)
-#                 print("--------------------------------------------------------------------")
-
-#             #if (count == 3):
-#                # break
-#             #count += 1
-
-#         except:
-#             author = "No Author Found"
-
-#             print(author)
-#             print(url)
-#             print("--------------------------------------------------------------------")
-            
-        
-#         print("--------------------------------------------------------------------")
-#         print("--------------------------------------------------------------------")
-#         print("--------------------------------------------------------------------")
-        
-#         articlesAuthorList.append(author)
+    articlesAuthorList = []
+    articlesUrls = getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile)
     
-#     return articlesAuthorList
+    for url in articlesUrls:
+
+        try:
+            htmlFile = getHtmlFileFromUrl(url)
+            authorOuterContainer = htmlFile.find("div", class_ = "dcr-1aul2ye")
+            authorInnerContainer = authorOuterContainer.find("div", class_ = "dcr-q1awta")
+
+            authorTags = authorInnerContainer.findAll("a")
+
+            authorName = ""
+
+
+            for tag in authorTags:
+                authorName += tag.text.strip() + ", " 
+
+
+            if (authorName == ""):
+                authorName = "No Author"
+
+            articlesAuthorList.append(authorName)
+            
+
+        except:
+            articlesAuthorList.append("No Author")
+    
+    return articlesAuthorList
 
 
 
@@ -179,7 +162,7 @@ soupHtmlFile = getHtmlFileFromUrl(siteUrl)
 #     print(titles)
 #     print("-------------")
 
-# print("")
+
 
 # for links in getArticlesLinks(siteUrl, sitePrefix, soupHtmlFile):
 #     print(links)
@@ -187,8 +170,9 @@ soupHtmlFile = getHtmlFileFromUrl(siteUrl)
 
 
 
-getArticlesTitles(soupHtmlFile)
-getArticlesLinks(siteUrl, sitePrefix, soupHtmlFile)
+for authors in getArticlesAuthors(siteUrl, sitePrefix, soupHtmlFile):
+    print(authors)
+    print("-------------")
     
     
 
