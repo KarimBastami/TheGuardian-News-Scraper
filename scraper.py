@@ -5,10 +5,11 @@ import csv
 # ---------------------------------------------------------------------------
 
 
+siteName = "https://www.bbc.com"
+sitePrefix = "https://www.bbc"
 
-def getHtmlFileFromUrl(url):
-    htmlFile = requests.get(url).text
-    return BeautifulSoup(htmlFile, "lxml")
+htmlFile = requests.get(siteName).text
+soupHtmlFile = BeautifulSoup(htmlFile, "lxml")
 
 
 
@@ -22,6 +23,7 @@ def getArticleLinkContainers(_soupHtmlFile):
             articlesList = articlesContainer.find("ul")
             articlesListItems = articlesList.select("li[class *= --]")
 
+
             for list in articlesListItems:
 
                 mediaContent = list.find("div", class_ = "media__content")
@@ -30,7 +32,8 @@ def getArticleLinkContainers(_soupHtmlFile):
                     mediaLink = mediaContent.find("a" ,class_ = "media__link")
                 except:
                     continue
-                                
+                
+                
                 mediaContainers.append(mediaLink)
 
         except:
@@ -41,7 +44,7 @@ def getArticleLinkContainers(_soupHtmlFile):
 
 
 
-def getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile):
+def getArticlesLinks(_siteName, _sitePrefix, _soupHtmlFile):
 
     articleLinkList = []
     linkContainers = getArticleLinkContainers(_soupHtmlFile)
@@ -57,7 +60,7 @@ def getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile):
         articleLink = ""
 
         if (_sitePrefix not in articleLinkSuffix):
-            articleLink = _siteUrl + articleLinkSuffix
+            articleLink = _siteName + articleLinkSuffix
 
         else:
             articleLink = articleLinkSuffix
@@ -89,80 +92,21 @@ def getArticlesTitles(_soupHtmlFile):
 
 
 
-def getArticlesAuthors(_siteUrl, _sitePrefix, _soupHtmlFile):
-
-    articlesAuthorList = []
-    articlesUrls = getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile)
-    authorSearchParameters = ["lx-commentary__meta-reporter",
-                              "ssrcss-1gg9z89-Contributor",
-                              "qa-contributor-name"]
-
-    count = 0
-
-    for url in articlesUrls:
-        articlePage = getHtmlFileFromUrl(url)
-        author = ""
-        
-        try:
-            authorList = articlePage.findAll("p", class_ = authorSearchParameters)
-
-            for auth in authorList:
-                author = auth.text
-                
-                print(author)
-                print(url)
-                print("--------------------------------------------------------------------")
-
-            #if (count == 3):
-               # break
-            #count += 1
-
-        except:
-            author = "No Author Found"
-
-            print(author)
-            print(url)
-            print("--------------------------------------------------------------------")
-            
-        
-        print("--------------------------------------------------------------------")
-        print("--------------------------------------------------------------------")
-        print("--------------------------------------------------------------------")
-        
-        articlesAuthorList.append(author)
-    
-    return articlesAuthorList
-
-
-
-
-
-
-
-
 # ----------------------------------- #
-# -------------   Main  ------------- #
+# ------------- Testing ------------- #
 # ----------------------------------- #
 
+for titles in getArticlesTitles(soupHtmlFile):
+    print(titles)
+    print("-------------")
 
-siteUrl = "https://www.bbc.com"
-sitePrefix = "https://www.bbc"
+print("")
 
-soupHtmlFile = getHtmlFileFromUrl(siteUrl)
-
-
-# for titles in getArticlesTitles(soupHtmlFile):
-#     print(titles)
-#     print("-------------")
-
-# print("")
-
-# for links in getArticlesLinks(siteUrl, sitePrefix, soupHtmlFile):
-#     print(links)
-#     print("-------------")
+for links in getArticlesLinks(siteName, sitePrefix, soupHtmlFile):
+    print(links)
+    print("-------------")
 
 
-getArticlesAuthors(siteUrl, sitePrefix, soupHtmlFile)
 
     
     
