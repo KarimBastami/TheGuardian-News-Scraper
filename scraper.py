@@ -19,9 +19,11 @@ def removeDuplicates(list):
 
 
 
+
 def getHtmlFileFromUrl(url):
     htmlFile = requests.get(url).text
     return BeautifulSoup(htmlFile, "lxml")
+
 
 
 
@@ -105,6 +107,7 @@ def getArticlesTitles(_soupHtmlFile):
 
 
 
+
 def getArticlesAuthors(_siteUrl, _sitePrefix, _soupHtmlFile):
 
     articlesAuthorList = []
@@ -141,6 +144,36 @@ def getArticlesAuthors(_siteUrl, _sitePrefix, _soupHtmlFile):
 
 
 
+def getArticlesText(_siteUrl, _sitePrefix, _soupHtmlFile):
+
+    articleTextlist = []
+    articlesUrls = getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile)
+
+    for url in articlesUrls:
+
+        articleText = ""
+
+        try:
+
+            htmlFile = getHtmlFileFromUrl(url)
+            articleTextContainer = htmlFile.find("div", class_ = "article-body-commercial-selector")
+            articleTextParagraphs = articleTextContainer.findAll("p")
+
+            for p in articleTextParagraphs:
+                articleText += p.text.strip()
+
+        except:
+            articleText = "No article text content was found"
+        
+
+        articleTextlist.append(articleText)
+
+    return articleTextlist
+
+
+
+
+
 
 # ----------------------------------- #
 # -------------   Main  ------------- #
@@ -170,15 +203,17 @@ soupHtmlFile = getHtmlFileFromUrl(siteUrl)
 
 
 
-for authors in getArticlesAuthors(siteUrl, sitePrefix, soupHtmlFile):
-    print(authors)
-    print("-------------")
+# for authors in getArticlesAuthors(siteUrl, sitePrefix, soupHtmlFile):
+#     print(authors)
+#     print("-------------")
     
     
+# for text in getArticlesText(siteUrl, sitePrefix, soupHtmlFile):
+#     print(text)
+#     print("-------------")
 
 
-
-
+#getArticlesText(siteUrl, sitePrefix, soupHtmlFile)
 
 
 
