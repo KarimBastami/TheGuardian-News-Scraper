@@ -173,6 +173,42 @@ def getArticlesText(_siteUrl, _sitePrefix, _soupHtmlFile):
 
 
 
+def getArticlesCategories(_siteUrl, _sitePrefix, _soupHtmlFile):
+
+    articleCategoryList = []
+    articlesUrls = getArticlesLinks(_siteUrl, _sitePrefix, _soupHtmlFile)
+
+    for url in articlesUrls:
+
+        try:
+            htmlFile = getHtmlFileFromUrl(url)
+            categoryOuterContainer = htmlFile.find("div", class_ = "dcr-hfp9tp")
+            categoryInnerContainer = categoryOuterContainer.find("div", class_ = "dcr-1u8qly9")
+
+            catTags = categoryInnerContainer.findAll("a")
+
+            category = ""
+
+
+            for tag in catTags:
+                category += tag.text.strip() + ", " 
+
+
+            if (category == ""):
+                category = "No category tag found"
+
+            articleCategoryList.append(category)
+    
+        except:
+            articleCategoryList.append("No category tag found") 
+    
+    return articleCategoryList
+
+
+
+
+
+
 
 
 # ----------------------------------- #
@@ -216,7 +252,9 @@ soupHtmlFile = getHtmlFileFromUrl(siteUrl)
 #getArticlesText(siteUrl, sitePrefix, soupHtmlFile)
 
 
-
+for tag in getArticlesCategories(siteUrl, sitePrefix, soupHtmlFile):
+    print(tag)
+    print("-------------")
 
 
 
