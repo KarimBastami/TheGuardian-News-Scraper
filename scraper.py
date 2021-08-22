@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-import csv
 
 from requests.api import get
 
@@ -211,50 +210,10 @@ def getArticlesCategories(_siteUrl, _sitePrefix, _soupHtmlFile):
 
 
 
-# ----------------------------------- #
-# -------------   Main  ------------- #
-# ----------------------------------- #
-
-
-siteUrl = "https://www.theguardian.com/international"
-sitePrefix = "https://www.theguardian"
-
-soupHtmlFile = getHtmlFileFromUrl(siteUrl)
-
-
-# for i in getArticleLinkContainers(soupHtmlFile):
-#     print(i.prettify())
 
 
 
-# for titles in getArticlesTitles(soupHtmlFile):
-#     print(titles)
-#     print("-------------")
 
-
-
-# for links in getArticlesLinks(siteUrl, sitePrefix, soupHtmlFile):
-#     print(links)
-#     print("-------------")
-
-
-
-# for authors in getArticlesAuthors(siteUrl, sitePrefix, soupHtmlFile):
-#     print(authors)
-#     print("-------------")
-    
-    
-# for text in getArticlesText(siteUrl, sitePrefix, soupHtmlFile):
-#     print(text)
-#     print("-------------")
-
-
-#getArticlesText(siteUrl, sitePrefix, soupHtmlFile)
-
-
-for tag in getArticlesCategories(siteUrl, sitePrefix, soupHtmlFile):
-    print(tag)
-    print("-------------")
 
 
 
