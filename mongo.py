@@ -1,5 +1,4 @@
 import pymongo
-
 import scraper
 
 # ---------------------------------------------------------------------------
@@ -45,6 +44,9 @@ def addNewArticlesToDb(_siteUrl, _sitePrefix, _soupHtmlFile, _collection):
             _collection.insert_one(row)
 
 
+    return len(uniqueArticleIndexList)
+
+
 
 
 
@@ -58,25 +60,21 @@ def getArticlesUsingCategory(_collection, _category):
 
 
 
-# ----------------------------------- #
-# -------------   Main  ------------- #
-# ----------------------------------- #
-
-client = pymongo.MongoClient("mongodb+srv://NewsScraper:mrbOkWRipWEGh1Bt@news-cluster.fvtga.mongodb.net/News?retryWrites=true&w=majority")
-
-db = client["News"]
-collection = db["TheGuardian"]
 
 
-siteUrl = "https://www.theguardian.com/international"
-sitePrefix = "https://www.theguardian"
-
-soupHtmlFile = scraper.getHtmlFileFromUrl(siteUrl)
 
 
-#addNewArticlesToDb(siteUrl, sitePrefix, soupHtmlFile, collection)
 
-getArticlesUsingCategory(collection, "Afghanistan")
+
+
+
+
+
+
+
+
+
+
 
     
 
