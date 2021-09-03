@@ -27,7 +27,7 @@ Articles include:
  - MongoDB API
   
   
- Future Work:
+ ### Future Work:
  - At the moment the scraper only works on the home page of TheGuardian.com and does not support crawling
  - Improve scraping speed as it can take around a minute to fully scrape
  
