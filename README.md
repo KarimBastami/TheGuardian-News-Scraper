@@ -15,7 +15,9 @@ Articles include:
   - mongo.py
   - main.py
   
-- Run main.py in the same directory as the other files and a console based user interface should appear
+- Run main.py in the same directory as the other files and a console based user interface should appear 
+
+- Make sure pymongo, beautiful soup and the request libraries are installed
 
 - There are only two options available at the moment
   - Scrape for new articles: which will check for any articles not already in the database and upload them
@@ -24,7 +26,7 @@ Articles include:
  
  ### Tools Used:
  - Beautiful Soup & Requests Library
- - MongoDB API
+ - MongoDB / pymongo library 
   
   
  ### Future Work:
