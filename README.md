@@ -1,4 +1,4 @@
-# News_Scraper
+# TheGuardian-News-Scraper
 A simple console based webscraper that scrapes articles from TheGuardian.com and uploads them to a MongoDB database
 
 Articles include:
